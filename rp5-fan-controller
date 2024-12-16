@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 #adjust dir below. Example: dir="/home/nthx/rp5-fan-control/"
-dir="/home/$USER/rp5-fan-control"
+dir=""
 user="root"
 cmd="./rp5-fan-control.sh"
 
