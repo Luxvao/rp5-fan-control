@@ -16,11 +16,11 @@ if (( $EUID != 0 )); then
 fi
 
 
-TEMPERATURE_FILE="/sys/devices/virtual/thermal/thermal_zone0/temp"
+TEMPERATURE_FILE="/sys/class/hwmon/hwmon1/temp1_input"
 FAN_SPEED_FILE="/sys/class/hwmon/hwmon0/pwm1"
 DEFAULT_FAN_SPEED=`cat ${FAN_SPEED_FILE}`
 TEST_EVERY=3 #seconds
-new_fan_speed_default=80
+new_fan_speed_default=30
 LOGGER_NAME=rp5-fan-control
 
 #make sure after quiting script fan goes to auto control
