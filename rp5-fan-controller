@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          odroid-fan-controller
+# Provides:          rp5-fan-controller
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -9,10 +9,10 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-#adjust dir below. Example: dir="/home/nthx/odroid-xu4-fan-control/"
-dir=""
+#adjust dir below. Example: dir="/home/nthx/rp5-fan-control/"
+dir="/home/$USER/rp5-fan-control"
 user="root"
-cmd="./odroid-xu4-fan-control.sh"
+cmd="./rp5-fan-control.sh"
 
 name=`basename $0`
 pid_file="/var/run/$name.pid"

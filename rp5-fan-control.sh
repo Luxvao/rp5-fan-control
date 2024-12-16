@@ -17,29 +17,27 @@ fi
 
 
 TEMPERATURE_FILE="/sys/devices/virtual/thermal/thermal_zone0/temp"
-FAN_MODE_FILE="/sys/devices/platform/pwm-fan/automatic"
-FAN_SPEED_FILE="/sys/devices/platform/pwm-fan/pwm1"
+FAN_SPEED_FILE="/sys/class/hwmon/hwmon0/pwm1"
+DEFAULT_FAN_SPEED=`cat ${FAN_SPEED_FILE}`
 TEST_EVERY=3 #seconds
 new_fan_speed_default=80
-LOGGER_NAME=odroid-xu4-fan-control
+LOGGER_NAME=rp5-fan-control
 
 #make sure after quiting script fan goes to auto control
 function cleanup {
   ${DEBUG} && logger -t $LOGGER_NAME "event: quit; temp: auto"
-  echo 1 > ${FAN_MODE_FILE}
+  echo $DEFAULT_FAN_SPEED > $FAN_SPEED_FILE
 }
 trap cleanup EXIT
 
-function exit_xu4_only_supported {
-  ${DEBUG} && logger -t $LOGGER_NAME "event: non-xu4 $1"
+function exit_rp5_only_supported {
+  ${DEBUG} && logger -t $LOGGER_NAME "event: non-rp5 $1"
   exit 2
 }
 if [ ! -f $TEMPERATURE_FILE ]; then
-  exit_xu4_only_supported "a"
-elif [ ! -f $FAN_MODE_FILE ]; then
-  exit_xu4_only_supported "b"
+  exit_rp5_only_supported "a"
 elif [ ! -f $FAN_SPEED_FILE ]; then
-  exit_xu4_only_supported "c"
+  exit_rp5_only_supported "b"
 fi
 
 
@@ -50,8 +48,6 @@ echo "sudo tail -f /var/log/syslog"
 
 while [ true ];
 do
-  echo 0 > ${FAN_MODE_FILE} #to be sure we can manage fan
-
   current_max_temp=`cat ${TEMPERATURE_FILE} | cut -d: -f2 | sort -nr | head -1`
   ${DEBUG} && logger -t $LOGGER_NAME "event: read_max; temp: ${current_max_temp}"
 
