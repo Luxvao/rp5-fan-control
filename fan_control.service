@@ -1,0 +1,15 @@
+[Unit]
+Description=Fan controller for the rp5
+DefaultDependencies=no
+Before=basic.target
+After=local-fs.target
+
+[Service]
+Type=simple
+ExecStart=/fan/daemon.sh
+Restart=always
+User=root
+Group=root
+
+[Install]
+WantedBy=basic.target
